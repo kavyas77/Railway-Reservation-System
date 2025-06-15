@@ -1,0 +1,139 @@
+package com.Train;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class RailwayReservation {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter total number of seats:");
+        int total_seats = sc.nextInt();
+        sc.nextLine();
+
+        TrainDetails details_train = new TrainDetails(total_seats, "Kovai Express", 34562);
+        ArrayList<Person> bookedPassengers = new ArrayList<>();
+
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Book Ticket");
+            System.out.println("2. Cancel Ticket");
+            System.out.println("3. Check Available Seats");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    if (details_train.gettotalSeats() == 0) {
+                        System.out.println("No seats available, booking full!");
+                        break;
+                    }
+
+                    System.out.println("Enter person name:");
+                    String name = sc.nextLine();
+
+                    System.out.println("Enter age:");
+                    int age = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.println("Enter train name:");
+                    String train_name = sc.nextLine();
+
+                    if (!train_name.equals(details_train.gettrainName())) {
+                        System.out.println("You entered wrong train name!");
+                        break;
+                    }
+
+                    System.out.println("Available seats:");
+                    for (int seat : details_train.getSeats()) {
+                        System.out.print(seat + " ");
+                    }
+                    System.out.println();
+
+                    System.out.println("Enter the seat number:");
+                    int seatNumber = sc.nextInt();
+                    sc.nextLine();
+
+                    while (!details_train.getSeats().contains(seatNumber)) {
+                        System.out.println("Seat not available, please choose from available seats:");
+                        for (int seat : details_train.getSeats()) {
+                            System.out.print(seat + " ");
+                        }
+                        System.out.println();
+                        seatNumber = sc.nextInt();
+                        sc.nextLine();
+                    }
+
+                    // Book the seat
+                    details_train.bookSeat(seatNumber);
+
+                    // Store booking info
+                    Person person_details = new Person(name, age, train_name, seatNumber);
+                    bookedPassengers.add(person_details);
+
+                    System.out.println("Congratulations, your ticket is booked!");
+
+                    System.out.println("Seats left: " + details_train.gettotalSeats());
+                    break;
+
+                case 2:
+                    if (bookedPassengers.isEmpty()) {
+                        System.out.println("No bookings available to cancel.");
+                        break;
+                    }
+
+                    System.out.println("Enter passenger name for cancellation:");
+                    String cancelName = sc.nextLine();
+
+                    System.out.println("Enter seat number to cancel:");
+                    int cancelSeat = sc.nextInt();
+                    sc.nextLine();
+
+                    boolean cancelled = cancelBooking(bookedPassengers, details_train, cancelName, cancelSeat);
+
+                    if (!cancelled) {
+                        System.out.println("No booking found for this passenger and seat.");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Available seats (" + details_train.gettotalSeats() + "):");
+                    for (int seat : details_train.getSeats()) {
+                        System.out.print(seat + " ");
+                    }
+                    System.out.println();
+                    break;
+
+                case 4:
+                    running = false;
+                    System.out.println("Exiting. Thank you!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+
+        sc.close();
+    }
+
+
+    public static boolean cancelBooking(ArrayList<Person> bookedPassengers, TrainDetails trainDetails,
+                                        String passengerName, int seatNumber) {
+        for (int i = 0; i < bookedPassengers.size(); i++) {
+            Person p = bookedPassengers.get(i);
+            if (p.getName().equalsIgnoreCase(passengerName) && p.getSeatNumber() == seatNumber) {
+                bookedPassengers.remove(i);
+                trainDetails.freeSeat(seatNumber);
+                System.out.println("Booking cancelled successfully for " + passengerName + ", seat number: " + seatNumber);
+                return true;
+            }
+        }
+        return false;
+    }
+}

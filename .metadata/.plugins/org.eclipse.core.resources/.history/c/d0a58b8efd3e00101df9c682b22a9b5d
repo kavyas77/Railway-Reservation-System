@@ -1,0 +1,70 @@
+package com.Train;
+import java.util.ArrayList;
+import java.util.Scanner;
+public class RailwayReservation {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter total number of seats:");
+		int total_seats = sc.nextInt();
+		sc.nextLine();
+		TrainDetails details_train = details_train = new TrainDetails(total_seats,"kovai Express",34562);;
+		for(int i=0;i<total_seats;i++) {
+			System.out.println("Enter person name:");
+			String name = sc.nextLine();
+			System.out.println("enter age:");
+			int age = sc.nextInt();
+			sc.nextLine(); 
+			System.out.println("Enter train name:");
+			String train_name = sc.nextLine();
+			System.out.println("Enter the seat number:");
+			int seatNumber = sc.nextInt();
+			sc.nextLine();
+			Person person_details = new Person(name, age, train_name, seatNumber);
+			ArrayList<Integer> list = new ArrayList<>(details_train.getSeats());
+			System.out.println("train name is:"+details_train.gettrainName());
+			if(!train_name.equals(details_train.gettrainName())) {
+				System.out.println("You are entering a wrong name");	
+			}
+			else if(details_train.gettotalSeats() == 0) {
+				System.out.println("There is no seats available, booking full!");	
+			}
+			
+			else if(!list.contains(seatNumber)) {
+				while(true)
+				{
+					System.out.println("Enter the seat number:");
+				    seatNumber = sc.nextInt();
+				    if(list.contains(seatNumber)) {
+				    	break;
+				    }
+				    else {
+				    	System.out.println("the seat is not available can you check the availabe below and enter anothe seat number");
+						System.out.println("Available seats:");
+						for(int seat : list) {
+							System.out.println(seat);
+						}
+				    }
+				
+				}
+			}
+				else {
+					System.out.println("Congragulations, Your tickets are booked!");
+					
+				}
+			
+			System.out.println("The total number of seats available:"+details_train.gettotalSeats());
+			System.out.println("Available seats:");
+			for(int seat : list) {
+				System.out.println(seat);
+			}
+			
+		}
+		
+		
+		
+		
+		
+
+	}
+
+}

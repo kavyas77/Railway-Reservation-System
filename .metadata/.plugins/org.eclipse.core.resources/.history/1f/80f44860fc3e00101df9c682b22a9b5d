@@ -1,0 +1,40 @@
+package com.Train;
+
+import java.util.ArrayList;
+
+public class TrainDetails {
+	private String trainName;
+	private int trainNumber;
+	private int totalSeats;
+	private ArrayList<Integer> seats;
+	
+	public TrainDetails(int totalSeats,String trainName, int trainNumber) {
+		this.trainName = trainName;
+		this.trainNumber = trainNumber;
+		this.totalSeats = totalSeats;
+		seats = new ArrayList<>(totalSeats);
+		for(int i=1;i<=totalSeats;i++) {
+			seats.add(i);
+		}	
+	}
+	
+	public String gettrainName() {
+		return trainName;
+	}
+	public int gettrainNumber() {
+		return trainNumber;
+	}
+	public int gettotalSeats() {
+		return seats.size();
+	}
+	public ArrayList<Integer> getSeats(){
+		return seats;
+	}
+	public void bookSeat(int seatNumber) {
+        if (seats.contains(seatNumber)) {
+            seats.remove(Integer.valueOf(seatNumber)); 
+        }
+        
+    }
+	
+}

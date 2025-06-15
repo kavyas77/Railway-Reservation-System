@@ -1,0 +1,30 @@
+package com.Train;
+
+import java.util.ArrayList;
+
+public class Train {
+	private String trainName;
+	private int trainNumber;
+	private int totalSeats;
+	private ArrayList<Integer> seats = new ArrayList<>(totalSeats);
+	for(int i=1;i<totalSeats;i++) {
+		seats.add(i);
+	}
+	
+	public Train(int totalSeats,String trainName, int trainNumber) {
+		this.trainName = trainName;
+		this.trainNumber = trainNumber;
+		this.totalSeats = totalSeats;
+	}
+	
+	public String trainName() {
+		return trainName;
+	}
+	public int trainNumber() {
+		return trainNumber;
+	}
+	public int totalSeats() {
+		return totalSeats;
+	}
+	
+}
